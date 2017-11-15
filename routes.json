@@ -1,0 +1,4 @@
+{
+  "/": ["MainController"],
+  "/testPage": ["MainController", "test"]
+}
