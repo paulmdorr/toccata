@@ -2,11 +2,23 @@
 class Toccata {
   const BASE_APP_DIR = __DIR__ . '/../App';
 
-  public static function start() {
-    self::autoload();
+  private static $logger;
 
+  public static function bootstrap() {
+    self::autoload();
+  }
+
+  public static function start() {
     $router = new Router();
     $router->processRequest();
+  }
+
+  public static function setLogger(Logger $logger) {
+    self::$logger = $logger;
+  }
+
+  public static function getLogger() {
+    return self::$logger;
   }
 
   private static function autoload() {
