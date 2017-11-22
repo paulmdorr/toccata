@@ -12,7 +12,7 @@ The explanation for the name is simple: **_Toccata_** is never going to be as go
 For the time being, just clone the repo and create a vhost pointing to its root
 
 ```bash
-git clone git@bitbucket.org:paulmdorr/toccata.git
+git clone git@github.com:paulmdorr/toccata.git
 ```
 
 ## Usage
