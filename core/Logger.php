@@ -4,5 +4,5 @@ abstract class Logger {
   const TYPE_WARNING = 'warning';
   const TYPE_ERROR = 'error';
 
-  public abstract function Log($message, $type = self::TYPE_DEBUG);
+  public abstract function Log(string $message, string $type = self::TYPE_DEBUG);
 }

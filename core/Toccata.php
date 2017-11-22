@@ -17,7 +17,7 @@ class Toccata {
     self::$logger = $logger;
   }
 
-  public static function getLogger() {
+  public static function getLogger(): Logger {
     return self::$logger;
   }
 
