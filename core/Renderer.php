@@ -1,4 +1,4 @@
 <?php
 interface Renderer {
-  public function render($options);
+  public function render(array $options);
 }
