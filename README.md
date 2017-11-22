@@ -95,4 +95,6 @@ I mean, at least for the moment. But I will surely add some code related to this
 Collaborating
 ------
 
-Are you sure that you want to collaborate with **THIS**? Well, it's your time! Don't hesitate to contact me at paulmdorr.me/contact if you have suggestions or questions. Also, feel free to create a _new issue_ or make a _pull request_!
+Are you sure that you want to collaborate with **THIS**? Well, it's your time, I guess!
+
+Don't hesitate to contact me at [paulmdorr.me/contact](http://paulmdorr.me/contact) if you have suggestions or questions. Also, feel free to create a _new issue_ or make a _pull request_!
