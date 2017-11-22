@@ -15,11 +15,29 @@ class Router {
     if (key_exists($route, $this->routes)) {
       if (isset($this->routes[$route][0])) {
         $method = isset($this->routes[$route][1]) ? $this->routes[$route][1] : 'index';
-
-        $controller = new $this->routes[$route][0]($this);
-        $controller->$method();
+        
+        try {
+          $controller = new $this->routes[$route][0]($this);
+        
+          if (is_callable(array($controller, $method))) {
+            $controller->$method();
+          } else {
+            $this->PageNotFound("Tried to call wrong method «{$method}» on controller «{$this->routes[$route][0]}».");
+          }
+        } catch (\Error $e) {
+          $this->PageNotFound("Wrong controller «{$this->routes[$route][0]}» defined on route «{$route}».");
+        }
+      } else {
+        $this->PageNotFound("Controller definition missing on route «{$route}».");
       }
+    } else {
+      $this->PageNotFound("Route «{$route}» not found.");
     }
+  }
+
+  private function PageNotFound($message) {
+    Toccata::getLogger()->Log($message, Logger::TYPE_WARNING);
+    $this->set404();
   }
 
   public function redirect($controllerName, $methodName) {
@@ -31,19 +49,8 @@ class Router {
     }
   }
 
-  private function sendBadRequestMethodResponse($method) {
-    $this->api->setResponseHeaders(400);
-    echo json_encode(['errors' => [
-      ['Title' => 'Wrong request method'],
-      ['Detail' => "This endpoint only accepts $method method."]
-    ]]);
-  }
-
-  private function sendRequestParameterMissing($parameter) {
-    $this->api->setResponseHeaders(400);
-    echo json_encode(['errors' => [
-      ['Title' => 'Missing parameter'],
-      ['Detail' => "The $parameter parameter is required."]
-    ]]);
+  private function set404() {
+    http_response_code(400);
+    include('404.php');
   }
 }
