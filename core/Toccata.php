@@ -1,6 +1,6 @@
 <?php
 class Toccata {
-  const BASE_APP_DIR = __DIR__ . '/../App';
+  const BASE_APP_DIR = __DIR__ . '/../app';
 
   private static $logger;
 
@@ -26,29 +26,35 @@ class Toccata {
     spl_autoload_register(function ($class) {
       $original_filename = $class . '.php';
       $full_path_filename = __DIR__ . '/' . $original_filename;
-
+      
       if (file_exists($full_path_filename)) {
         include $full_path_filename;
-      } else {
+      } else if (!self::tryToIncludeFromSubDirs($original_filename, __DIR__)) {
         // Trying to load the class from the App root
-        $filename = '../App/' . $original_filename;
+        $filename = '../app/' . $original_filename;
 
         if (file_exists($filename)) {
           include $filename;
         } else {
           // Trying to load the class from the App subdirs (Controllers, Models, etc)
-          $dir = new DirectoryIterator(self::BASE_APP_DIR);
-          foreach ($dir as $fileinfo) {
-              if (!$fileinfo->isDot() && $fileinfo->isDir()) {
-                $filename = self::BASE_APP_DIR . '/' . $fileinfo->getFilename() . '/' . $original_filename;
-
-                if (file_exists($filename)) {
-                  include $filename;
-                }
-              }
-          }
+          self::tryToIncludeFromSubDirs($original_filename, self::BASE_APP_DIR);
         }
       }
     });
+  }
+
+  private static function tryToIncludeFromSubDirs($original_filename, $base_dir) {
+    $dir = new DirectoryIterator($base_dir);
+    foreach ($dir as $fileinfo) {
+        if (!$fileinfo->isDot() && $fileinfo->isDir()) {
+          $filename = $base_dir . '/' . $fileinfo->getFilename() . '/' . $original_filename;
+
+          if (file_exists($filename)) {
+            include $filename;
+            return true;
+          }
+        }
+    }
+    return false;
   }
 }

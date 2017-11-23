@@ -1,5 +1,5 @@
 <?php
-include 'Core/Toccata.php';
+include 'core/Toccata.php';
 
 Toccata::bootstrap();
 Toccata::setLogger(new BasicLogger());
