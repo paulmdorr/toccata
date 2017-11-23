@@ -18,14 +18,15 @@ class Router {
         
         try {
           $controller = new $this->routes[$route][0]($this);
-        
-          if (is_callable(array($controller, $method))) {
-            $controller->$method();
-          } else {
-            $this->PageNotFound("Tried to call wrong method «{$method}» on controller «{$this->routes[$route][0]}».");
-          }
         } catch (\Error $e) {
           $this->PageNotFound("Wrong controller «{$this->routes[$route][0]}» defined on route «{$route}».");
+          return;
+        }
+
+        if (is_callable(array($controller, $method))) {
+          $controller->$method();
+        } else {
+          $this->PageNotFound("Tried to call wrong method «{$method}» on controller «{$this->routes[$route][0]}».");
         }
       } else {
         $this->PageNotFound("Controller definition missing on route «{$route}».");
